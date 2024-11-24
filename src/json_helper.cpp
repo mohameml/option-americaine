@@ -23,12 +23,12 @@ void to_json(nlohmann::json &j, const PnlVect *vect) {
 
 void from_json(const nlohmann::json &j, PnlMat *&mat) {
     std::vector<std::vector<double>> stl_m = j.get<std::vector<std::vector<double>>>();
-    size_t nLines = stl_m.size();
+    int nLines = stl_m.size();
     if (nLines == 0) {
         mat = pnl_mat_create(0, 0);
         return;
     }
-    size_t nColumns = stl_m[0].size();
+    int nColumns = stl_m[0].size();
     for (auto it : stl_m) {
         if (nColumns != it.size()) {
             std::cerr << "Matrix is not regular" << std::endl;

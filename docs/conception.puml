@@ -1,0 +1,63 @@
+@startuml conception
+
+class BlackScholesModel {
+    + size : int 
+    + r :int
+    + rho : double  
+    + sigma : PnlVect*
+    + divid : PnlVect*
+    + spot : PnlVect* 
+
+    void asset(PnlMat *path, double T, int dates, PnlRng *rng)
+    double discount(double t)
+
+}
+
+
+class MonteCarlo {
+    + mod_ : BlackScholesModel*
+    + opt_ : Option* 
+    + rng : PnLRng* 
+    + sampleNumber : int  // M
+
+    + double price() ;
+}
+
+abstract class Option {
+    + T : double
+    + dates_ : int  // N 
+    + size_ : int 
+    + strike : double 
+    + type : OptionType
+    + payoff_coeffcients : PnlVect*
+
+    double payoff(const PnlVect* St) = 0 
+}
+
+Enum OptionType {
+    + Basket : 0 
+    + GeometricPut : 1 
+    + BestOf : 2
+}
+
+class OptionBasket {
+    + override payOff(const PnlVect* St)
+}
+
+class OptionGeometricPut {
+    + override payOff(const PnlVect* St)
+}
+
+class OptionBestOf {
+    + override payOffconst PnlVect* St)
+}
+
+Option <|-- OptionBasket 
+Option <|-- OptionGeometricPut 
+Option <|-- OptionBestOf 
+
+MonteCarlo o-- Option
+MonteCarlo o-- BlackScholesModel
+
+
+@enduml

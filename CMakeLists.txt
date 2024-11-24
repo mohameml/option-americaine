@@ -13,12 +13,20 @@ endif (CXX)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
-set(Pnl_DIR "/home/mohameml/ENSIMAG/3A/MEQA/S9/04_methodes_Monte_Carlo/TPs/pnl/pnl/build/src")
+# set(Pnl_DIR "/home/mohameml/ENSIMAG/3A/MEQA/S9/04_methodes_Monte_Carlo/TPs/pnl/pnl/build/src")
 # Release or Debug
 if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "Setting build type to 'Debug' as none was specified.")
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
 endif ()
+
+
+# my_lib 
+file(GLOB ALL_FILES src/*.cpp)
+# Créer la bibliothèque avec tous les fichiers .cpp trouvés
+add_library(my_lib ${ALL_FILES})
+
+
 
 
 # Detect PNL
@@ -51,8 +59,11 @@ target_link_libraries(test_json_reader
 )
 pnl_add_postbuild(test_json_reader)
 
-add_executable(mc-example src/mc_example.cpp)
-target_link_libraries(mc-example ${LIBS})
+add_executable(mcam src/main.cpp )
+target_link_libraries(mcam     
+    my_lib 
+    ${PNL_LIBRARIES}
+    nlohmann_json::nlohmann_json )
 
 # Print compiler flags
 get_directory_property(DirDefs COMPILE_DEFINITIONS)

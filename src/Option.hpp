@@ -2,24 +2,41 @@
 
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
+#include "string.h"
+#include "json_helper.hpp"
 
 /// \brief Classe Option abstraite
 class Option
 {
 public:
-    double T_; // maturité
-    int dates_; // nombre de dates d'exercice
-    int size_; // dimension du modèle, redondant avec BlackScholesModel::size_
+    double T_;  /// maturité
+    int dates_; /// nombre de dates d'exercice
+    int size_;  /// dimension du modèle, redondant avec BlackScholesModel::size_
 
     /**
-     * Calcule la valeur du payoff sur la trajectoire
+     * Calcule la valeur du payoff
      *
-     * @param[in] path est une matrice de taille (dates_+1) x size_
-     * contenant une trajectoire du modèle telle que créée
-     * par la fonction asset.
-     * @return phi(trajectoire)
+     * @param[in] St est un un vecteur de taille size_
+     * contenant la valeur des sous-jacents à un instant donné.
      */
-    virtual double payoff(const PnlMat *path) = 0;
+    virtual double payoff(const PnlVect *St) = 0;
+    /**
+     * Constructeur
+     */
+    Option();
+
+    /**
+     * Constructeur de parsing :
+     */
+    Option(const nlohmann::json json);
+
+    /**
+     * Destructeur
+     */
+    virtual ~Option() {};
 };
 
-
+/**
+ * return la classe de l'option selon OptionType
+ */
+extern Option *instance_option(const nlohmann::json json);

@@ -1,21 +1,18 @@
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include "PricingResults.hpp"
-#include "json_helper.hpp"
 
-
-PricingResults::PricingResults(double directPrice, double newSimulationPrice, double newSimulationPriceStdDev)
-    : directPrice(directPrice)
-    , newSimulationPrice(newSimulationPrice)
-    , newSimulationPriceStdDev(newSimulationPriceStdDev)
+PricingResults::PricingResults(double directPrice, double newPrice, double newPriceStd)
+    : directPrice(directPrice), newPrice(newPrice), newPriceStd(newPriceStd)
 { }
 
-std::ostream& operator<<(std::ostream& o, const PricingResults& res)
+std::ostream& operator<<(std::ostream &stm, const PricingResults &res)
 {
     nlohmann::json j = {
-        {"direct american price", res.directPrice},
-        {"new simulation american price", res.newSimulationPrice},
-        {"new simulation american price stdDev", res.newSimulationPriceStdDev},
+        {"direct price", res.directPrice},
+        {"new simulation price", res.newPrice},
+        {"new simulation price stdDev", res.newPriceStd}
     };
-    o << std::setw(4) << j << std::endl;
-    return o;
+    stm << std::setw(4) << j << std::endl;
+    return stm;
 }

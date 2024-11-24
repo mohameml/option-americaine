@@ -3,17 +3,19 @@
 #include "pnl/pnl_random.h"
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
+#include "json_helper.hpp"
 
 /// \brief Modèle de Black Scholes
 class BlackScholesModel
 {
 public:
-    int size_; // nombre d'actifs du modèle
-    double r_; // taux d'intérêt
-    double rho_; // paramètre de corrélation
-    PnlVect *sigma_; // vecteur de volatilités
-    PnlVect *divid; // vecteur des dividendes
-    PnlVect *spot_; // valeurs initiales des sous-jacents
+    int size_;       /// nombre d'actifs du modèle
+    double r_;       /// taux d'intérêt
+    double rho_;     /// paramètre de corrélation
+    PnlVect *sigma_; /// vecteur de volatilités
+    PnlVect *divid;  /// vecteur des dividendes
+    PnlVect *spot_;  /// valeurs initiales des sous-jacents
+    PnlMat *L;       /// raccine carrée de matrice de corrélation
 
     /**
      * Génère une trajectoire du modèle et la stocke dans path
@@ -25,4 +27,18 @@ public:
      */
     void asset(PnlMat *path, double T, int dates, PnlRng *rng);
 
+    /**
+     * Calcule l'actualisation à la date t
+     */
+    double discount(double t);
+
+    /**
+     * Constructeur :
+     */
+    BlackScholesModel(const nlohmann::json json);
+
+    /**
+     * Destructeur :
+     */
+    ~BlackScholesModel();
 };

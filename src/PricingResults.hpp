@@ -1,16 +1,13 @@
 #pragma once
-#include <iostream>
-#include "pnl/pnl_vector.h"
+#include <string>
 
 class PricingResults
 {
-  private:
-    double directPrice; // Prix Longstaff Schwartz
-    double newSimulationPrice; // Prix obtenu avec de nouvelles simulations
-    double newSimulationPriceStdDev; // Ecart type de l'estimateur du prix obtenu sur de nouvelles simulations
-
-  public:
-    PricingResults(double directPrice, double newSimulationPrice, double newSimulationPriceStdDev);
-
-    friend std::ostream& operator<<(std::ostream& o, const PricingResults& res);
+private:
+    double directPrice;
+    double newPrice;
+    double newPriceStd;
+public:
+    PricingResults(double directPrice, double newPrice, double newPriceStd);
+    friend std::ostream& operator<<(std::ostream &stm, const PricingResults &res);
 };
