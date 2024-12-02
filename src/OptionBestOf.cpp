@@ -22,5 +22,9 @@ OptionBestOf::~OptionBestOf()
 
 double OptionBestOf::payoff(const PnlVect *St)
 {
-    return 0.0;
+    PnlVect *res_vect = pnl_vect_copy(St);
+    pnl_vect_mult_vect_term(res_vect, payoff_coeffcients);
+    double res = std::max(pnl_vect_max(res_vect) - strike, 0.0);
+    pnl_vect_free(&res_vect);
+    return res;
 }

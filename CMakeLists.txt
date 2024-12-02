@@ -51,6 +51,13 @@ endif()
 
 ### Ne rien modifier dans la partie au dessus de cette ligne.
 
+
+# Test de PnlBasis :
+add_executable(testPNL src/test.cpp)
+target_link_libraries(testPNL 
+    ${PNL_LIBRARIES}
+
+)
 # Test the parser
 add_executable(test_json_reader src/json_helper.cpp src/test_json_reader.cpp)
 target_link_libraries(test_json_reader

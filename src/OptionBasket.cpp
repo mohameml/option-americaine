@@ -22,5 +22,7 @@ OptionBasket::~OptionBasket()
 
 double OptionBasket::payoff(const PnlVect *St)
 {
-    return 0.0;
+    double res = 0;
+    res = pnl_vect_scalar_prod(St, payoff_coeffcients);
+    return std::max(res - strike, 0.0);
 }

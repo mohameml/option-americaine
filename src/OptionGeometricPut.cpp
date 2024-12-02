@@ -16,5 +16,7 @@ OptionGeometricPut::OptionGeometricPut(const nlohmann::json json) : Option(json)
 
 double OptionGeometricPut::payoff(const PnlVect *St)
 {
-    return 0.0;
+    double res = pnl_vect_prod(St);
+    res = std::exp(std::log(res) / size_); // on utilise res**(1/d) = exp(ln(res) /d) au lien de pow (pour avoir une bonne précision );
+    return std::max(strike - res, 0.0);
 }

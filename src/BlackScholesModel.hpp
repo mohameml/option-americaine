@@ -16,6 +16,7 @@ public:
     PnlVect *divid;  /// vecteur des dividendes
     PnlVect *spot_;  /// valeurs initiales des sous-jacents
     PnlMat *L;       /// raccine carrée de matrice de corrélation
+    PnlVect *G;      /// vect for simulation
 
     /**
      * Génère une trajectoire du modèle et la stocke dans path
