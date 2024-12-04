@@ -18,6 +18,7 @@ public:
     PnlVect *coef_alpha; ///  store coef alpha
     PnlVect *y;          /// store the y_i for the regression problem
     PnlMat *X;           /// store the x_i (vect) for the regression problem
+    PnlVect *taux_n;     /// vect : store the value of taux_n_m m in {1 , .... , M}
 
     /**
      * Calcule le prix de l'option à la date 0
@@ -35,4 +36,19 @@ public:
      * Destructeur :
      */
     ~MonteCarlo();
+
+    /**
+     * fonction qui calcule le taux_n à l'instant t_n
+     *
+     * @param[in] tn : current time
+     *
+     */
+    void update_taux_n(double tn);
+
+    /**
+     * fonction qui génère M trajectoires du sous-jacent  : (S_t0_(m) , ..... , S_tN_(m) ) avce m \in {1 , .... ,M}
+     *
+     * @param[in] path matrice de taille (M*(N + 1) , D)
+     */
+    void generate_path(PnlMat *path);
 };

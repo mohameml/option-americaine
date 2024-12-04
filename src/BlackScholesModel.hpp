@@ -39,6 +39,16 @@ public:
     BlackScholesModel(const nlohmann::json json);
 
     /**
+     * fonction qui simule S_tn = S_0*exp((r -sigma**2/2)*tn + sigma*sqrt(tn)*G) avce G suit une loi normale (0,1)
+     *
+     * @param[in] St : vecteur de taille D qui stocke la simulation de prix du sous-jacent à l'instant tn .
+     * @param[in] tn : current time  .
+     * @param[in] rng : génerateur des nombres aléatoires .
+     *
+     */
+    void simulation_of_st(PnlVect *St, double tn, PnlRng *rng);
+
+    /**
      * Destructeur :
      */
     ~BlackScholesModel();

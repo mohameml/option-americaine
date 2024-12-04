@@ -21,13 +21,12 @@ int main(int argc, char *argv[])
     nlohmann::json json = nlohmann::json::parse(file);
     MonteCarlo *mc = new MonteCarlo(json);
 
-    std::cout << mc->fixing_dates_number << std::endl;
-    std::cout << mc->sample_number << std::endl;
-    std::cout << mc->mod_->r_ << std::endl;
-
-    // double directPrice;
+    double directPrice = 0.0;
     // double newPrice;
     // double newPriceStd;
+
+    directPrice = mc->price();
+    std::cout << "price MC = " << directPrice << std::endl;
 
     // PricingResults res(directPrice,newPrice, newPriceStd);
     // std::cout << res << std::endl;

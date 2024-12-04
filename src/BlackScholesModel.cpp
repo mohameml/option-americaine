@@ -53,9 +53,23 @@ void BlackScholesModel::asset(PnlMat *path, double T, int dates, PnlRng *rng)
         for (int d = 0; d < D; d++)
         {
             double sigma_d = GET(sigma_, d);
+            double divi_d = GET(divid, d);
             PnlVect L_d = pnl_vect_wrap_mat_row(L, d);
-            MLET(path, i, d) = MGET(path, i - 1, d) * exp((r - sigma_d * sigma_d / 2.0) * (time_step) + sigma_d * sqrt(time_step) * pnl_vect_scalar_prod(&L_d, G));
+            MLET(path, i, d) = MGET(path, i - 1, d) * exp((r - divi_d - sigma_d * sigma_d / 2.0) * (time_step) + sigma_d * sqrt(time_step) * pnl_vect_scalar_prod(&L_d, G));
         }
+    }
+}
+
+void BlackScholesModel::simulation_of_st(PnlVect *St, double tn, PnlRng *rng)
+{
+    int D = size_;
+    double r = this->r_;
+    pnl_vect_rng_normal(G, D, rng);
+    for (size_t d = 0; d < D; d++)
+    {
+        double sigma_d = GET(sigma_, d);
+        PnlVect L_d = pnl_vect_wrap_mat_row(L, d);
+        LET(St, d) = LET(spot_, d) * exp((r - sigma_d * sigma_d / 2.0) * tn + sigma_d * sqrt(tn) * pnl_vect_scalar_prod(&L_d, G));
     }
 }
 
